@@ -24,26 +24,38 @@
             padding: 10px;
         }
         select {
-            padding: 10px;
+            padding: 10px 30px 10px 10px; /* Increase left padding, adjust right for icon */
             font-family: Arial, sans-serif;
             font-size: 16px;
-            background-color: #e0e0e0; /* Light gray background */
-            color: #fff; /* White text */
-            border: none; /* Remove stroke */
+            background-color: #e0e0e0;
+            color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
+            appearance: none; /* Remove default dropdown arrow styling */
+            -webkit-appearance: none; /* Safari/Chrome */
+            -moz-appearance: none; /* Firefox */
+            outline: none; /* Remove blue outline on focus/interaction */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23fff"><polygon points="0,0 12,0 6,12"/></svg>');
+            background-repeat: no-repeat;
+            background-position: calc(100% - 10px) center; /* Move icon inward */
         }
         .video {
             text-align: center;
             max-width: 100%;
-            margin-top: 60px; /* Adjust to avoid overlap with dropdown */
+            margin-top: 60px;
         }
         video {
             max-width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: none; /* Remove drop shadow */
-            overflow: hidden; /* Remove vertical scrollbar */
+            box-shadow: none;
+            overflow: hidden; /* Ensure no vertical scrollbar */
+            -webkit-appearance: none; /* Hide native controls initially */
+            controls: none; /* Hide controls on load (will be re-enabled on interaction) */
+        }
+        video:focus {
+            outline: none; /* Remove focus outline */
         }
     </style>
 </head>
@@ -59,11 +71,18 @@
         <div class="video">
             <video id="videoPlayer" src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
                    poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
-                   preload="auto" playsinline webkit-playsinline controls>
+                   preload="auto" playsinline webkit-playsinline>
             </video>
         </div>
     </div>
     <script>
+        const video = document.getElementById('videoPlayer');
+        video.addEventListener('mouseover', () => {
+            video.controls = true; // Show controls on hover
+        });
+        video.addEventListener('mouseout', () => {
+            video.controls = false; // Hide controls when not hovering
+        });
         function changeLanguage(lang) {
             const sources = {
                 'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4',
@@ -75,10 +94,10 @@
                 'es': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg',
                 'zh': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg'
             };
-            const video = document.getElementById('videoPlayer');
             video.src = sources[lang];
             video.poster = posters[lang];
             video.load();
+            video.controls = false; // Hide controls after language change
         }
     </script>
 </body>
