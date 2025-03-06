@@ -71,6 +71,11 @@
         video::media-controls-pip-button {
             display: none !important;
         }
+        /* Attempt to remove gradient on control bar */
+        video::-webkit-media-controls-panel {
+            background: #000 !important; /* Solid black background */
+            background-image: none !important; /* Remove any gradient */
+        }
     </style>
 </head>
 <body>
@@ -91,7 +96,6 @@
     </div>
     <script>
         const video = document.getElementById('videoPlayer');
-        // Toggle controls explicitly
         video.addEventListener('mouseover', () => {
             video.setAttribute('controls', ''); // Enable native controls on hover
             video.style.cursor = 'default'; // Reset cursor on hover
@@ -105,7 +109,6 @@
                 video.style.cursor = 'pointer'; // Ensure clickable state
             }
         });
-        // Disable PiP via JavaScript
         if (video.disablePictureInPicture) {
             video.disablePictureInPicture = true;
         }
