@@ -60,9 +60,8 @@
             border-radius: 20px;
             box-shadow: none;
             background: transparent;
-            cursor: pointer; /* Ensure pointer cursor */
+            cursor: pointer;
         }
-        /* Remove PiP icon */
         video::-webkit-media-controls-pip-button {
             display: none !important;
         }
@@ -124,7 +123,7 @@
             video.src = sources[lang];
             video.poster = posters[lang];
             video.load();
-            video.removeAttribute('controls'); // Disable controls after language change
+            video.removeAttribute('controls'); // Ensure controls are off after language change
             if (video.disablePictureInPicture) {
                 video.disablePictureInPicture = true;
             }
