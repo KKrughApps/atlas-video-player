@@ -50,12 +50,12 @@
             height: auto;
             border-radius: 20px;
             box-shadow: none;
-            overflow: hidden; /* Ensure no vertical scrollbar */
-            /* Ensure play button shows on load, controls hidden */
+            overflow: hidden; /* Remove vertical scrollbar */
+            /* Ensure play button is visible on load */
             -webkit-appearance: none; /* Reset native appearance */
         }
         video::-webkit-media-controls-start-playback-button {
-            display: block !important; /* Show play button on load */
+            display: block !important; /* Show circular play button on load */
         }
         video::-webkit-media-controls {
             display: none; /* Hide control bar on load */
@@ -63,9 +63,8 @@
         video:hover::-webkit-media-controls {
             display: block; /* Show controls on hover */
         }
-        /* Match Player 1 control bar gradient (approximation) */
         video::-webkit-media-controls-panel {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); /* Match Player 1 gradient */
         }
     </style>
 </head>
