@@ -15,10 +15,12 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            flex-direction: column;
         }
         .video {
             text-align: center;
             max-width: 100%;
+            margin-bottom: 20px;
         }
         video {
             max-width: 100%;
@@ -26,16 +28,50 @@
             border-radius: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        .language-dropdown {
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="language-dropdown">
+            <select onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="zh">Chinese</option>
+            </select>
+        </div>
         <div class="video">
-            <video src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
+            <video id="videoPlayer" src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
                    poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
                    preload="auto" playsinline webkit-playsinline controls>
             </video>
         </div>
     </div>
+    <script>
+        function changeLanguage(lang) {
+            const sources = {
+                'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4',
+                'es': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_es_Atlas.mp4',
+                'zh': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_zh_Atlas.mp4'
+            };
+            const posters = {
+                'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg',
+                'es': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg',
+                'zh': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg'
+            };
+            const video = document.getElementById('videoPlayer');
+            video.src = sources[lang];
+            video.poster = posters[lang];
+            video.load();
+        }
+    </script>
 </body>
 </html>
