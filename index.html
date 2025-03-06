@@ -57,6 +57,7 @@
             border-radius: 20px;
             box-shadow: none;
             -webkit-appearance: none;
+            /* Disable PiP via CSS where possible */
         }
         video::-webkit-media-controls {
             display: none;
@@ -70,15 +71,15 @@
         video::-webkit-media-controls-panel {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
         }
-        /* Hide Picture-in-Picture button for WebKit browsers */
+        /* Enhanced PiP removal for WebKit */
         video::-webkit-media-controls-pip-button {
             display: none !important;
         }
-        /* Hide Picture-in-Picture button for Firefox */
+        /* Firefox PiP removal */
         video::-moz-media-controls-pip-button {
             display: none !important;
         }
-        /* Hide Picture-in-Picture button for general browsers (less reliable) */
+        /* General fallback (less reliable) */
         video::media-controls-pip-button {
             display: none !important;
         }
@@ -96,7 +97,7 @@
         <div class="video">
             <video id="videoPlayer" src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
                    poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
-                   preload="auto" playsinline webkit-playsinline>
+                   preload="auto" playsinline webkit-playsinline disablepictureinpicture>
             </video>
         </div>
     </div>
@@ -108,6 +109,10 @@
         video.addEventListener('mouseout', () => {
             video.controls = false;
         });
+        // Disable PiP via JavaScript
+        if (video.disablePictureInPicture) {
+            video.disablePictureInPicture = true;
+        }
         function changeLanguage(lang) {
             const sources = {
                 'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4',
@@ -123,6 +128,9 @@
             video.poster = posters[lang];
             video.load();
             video.controls = false;
+            if (video.disablePictureInPicture) {
+                video.disablePictureInPicture = true;
+            }
         }
     </script>
 </body>
