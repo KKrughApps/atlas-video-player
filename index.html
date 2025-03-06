@@ -24,7 +24,7 @@
             padding: 10px;
         }
         select {
-            padding: 10px 30px 10px 10px; /* Increase left padding, adjust right for icon */
+            padding: 10px 30px 10px 10px;
             font-family: Arial, sans-serif;
             font-size: 16px;
             background-color: #e0e0e0;
@@ -32,13 +32,13 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            appearance: none; /* Remove default dropdown arrow styling */
-            -webkit-appearance: none; /* Safari/Chrome */
-            -moz-appearance: none; /* Firefox */
-            outline: none; /* Remove blue outline on focus/interaction */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23fff"><polygon points="0,0 12,0 6,12"/></svg>');
             background-repeat: no-repeat;
-            background-position: calc(100% - 10px) center; /* Move icon inward */
+            background-position: calc(100% - 10px) center;
         }
         .video {
             text-align: center;
@@ -51,11 +51,21 @@
             border-radius: 20px;
             box-shadow: none;
             overflow: hidden; /* Ensure no vertical scrollbar */
-            -webkit-appearance: none; /* Hide native controls initially */
-            controls: none; /* Hide controls on load (will be re-enabled on interaction) */
+            /* Ensure play button shows on load, controls hidden */
+            -webkit-appearance: none; /* Reset native appearance */
         }
-        video:focus {
-            outline: none; /* Remove focus outline */
+        video::-webkit-media-controls-start-playback-button {
+            display: block !important; /* Show play button on load */
+        }
+        video::-webkit-media-controls {
+            display: none; /* Hide control bar on load */
+        }
+        video:hover::-webkit-media-controls {
+            display: block; /* Show controls on hover */
+        }
+        /* Match Player 1 control bar gradient (approximation) */
+        video::-webkit-media-controls-panel {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
         }
     </style>
 </head>
@@ -78,7 +88,7 @@
     <script>
         const video = document.getElementById('videoPlayer');
         video.addEventListener('mouseover', () => {
-            video.controls = true; // Show controls on hover
+            video.controls = true; // Show controls on hover (overridden by CSS for WebKit)
         });
         video.addEventListener('mouseout', () => {
             video.controls = false; // Hide controls when not hovering
