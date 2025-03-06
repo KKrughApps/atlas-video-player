@@ -56,7 +56,7 @@
             max-height: 100%;
             border-radius: 20px;
             box-shadow: none;
-            -webkit-appearance: none;
+            /* Remove default controls to avoid interference */
         }
         video::-webkit-media-controls {
             display: none;
@@ -64,8 +64,9 @@
         video::-webkit-media-controls-start-playback-button {
             display: block !important;
         }
-        video:hover::-webkit-media-controls {
-            display: block;
+        video:hover {
+            /* Enable controls on hover without CSS override */
+            cursor: pointer;
         }
         video::-webkit-media-controls-panel {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
@@ -99,12 +100,18 @@
     </div>
     <script>
         const video = document.getElementById('videoPlayer');
-        // Ensure controls are toggled correctly
+        // Toggle controls explicitly on hover
         video.addEventListener('mouseover', () => {
-            video.setAttribute('controls', ''); // Explicitly enable controls on hover
+            video.setAttribute('controls', ''); // Enable controls on hover
         });
         video.addEventListener('mouseout', () => {
-            video.removeAttribute('controls'); // Explicitly disable controls on mouseout
+            video.removeAttribute('controls'); // Disable controls on mouseout
+        });
+        // Ensure play button is visible
+        video.addEventListener('loadedmetadata', () => {
+            if (video.paused) {
+                video.style.cursor = 'pointer'; // Indicate clickable area
+            }
         });
         // Disable PiP via JavaScript
         if (video.disablePictureInPicture) {
