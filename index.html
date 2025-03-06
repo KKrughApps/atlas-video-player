@@ -71,10 +71,14 @@
         video::media-controls-pip-button {
             display: none !important;
         }
-        /* Attempt to remove gradient on control bar */
+        /* Aggressive override for control bar gradient */
         video::-webkit-media-controls-panel {
-            background: #000 !important; /* Solid black background */
-            background-image: none !important; /* Remove any gradient */
+            background: #000 !important;
+            background-image: none !important;
+        }
+        video::-webkit-media-controls {
+            background: #000 !important;
+            background-image: none !important;
         }
     </style>
 </head>
@@ -127,6 +131,10 @@
             video.poster = posters[lang];
             video.load();
             video.removeAttribute('controls'); // Ensure controls are off after language change
+            // Ensure poster persists until video is ready
+            video.addEventListener('canplay', () => {
+                video.style.background = 'transparent'; // Prevent black background
+            }, { once: true });
             if (video.disablePictureInPicture) {
                 video.disablePictureInPicture = true;
             }
@@ -134,3 +142,4 @@
     </script>
 </body>
 </html>
+
