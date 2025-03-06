@@ -4,142 +4,241 @@
     <title>Atlas Video Player</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
         body {
             margin: 0;
-            padding: 0;
-            background-color: #fff;
             overflow: hidden;
         }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
+        .video-js {
+            width: 1920px;
+            height: 1920px;
+            max-width: 100%;
+            max-height: 100vh;
+            margin: 0 auto;
+            padding-bottom: 70px;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            background-color: transparent;
+            position: relative;
+            outline: none !important;
+        }
+        .vjs-video-container {
+            position: relative;
+            width: 1920px;
+            height: 1920px;
+            max-width: 100%;
+            max-height: 100vh;
+            margin: 0 auto;
+            aspect-ratio: 1 / 1;
             overflow: hidden;
-            height: 100vh;
-            background: transparent;
         }
         .language-dropdown {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px;
-            z-index: 10;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
         }
-        select {
-            padding: 10px 30px 10px 10px;
-            font-family: Arial, sans-serif;
+        .language-button {
+            background-color: #D3D3D3;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
             font-size: 16px;
-            background-color: #e0e0e0;
-            color: #fff;
+            font-family: Arial, sans-serif;
+            border-radius: 5px;
+        }
+        .language-button:hover {
+            background-color: #B0B0B0;
+        }
+        .language-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #D3D3D3;
             border: none;
             border-radius: 5px;
+            z-index: 1000;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .language-menu.visible {
+            display: block;
+        }
+        .language-item {
+            color: white;
+            padding: 5px 10px;
             cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            outline: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23fff"><polygon points="0,0 12,0 6,12"/></svg>');
-            background-repeat: no-repeat;
-            background-position: calc(100% - 10px) center;
+            font-family: Arial, sans-serif;
         }
-        .video {
-            text-align: center;
-            max-width: 100%;
-            margin-top: 60px;
-            overflow: hidden;
-            height: 80vh;
-            position: relative;
+        .language-item:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
         }
-        video {
-            max-width: 100%;
-            height: 100%;
-            max-height: 100%;
-            border-radius: 20px;
-            box-shadow: none;
-            background: transparent;
-            cursor: pointer;
+        .language-item:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
-        video::-webkit-media-controls-pip-button {
-            display: none !important;
+        .language-item:hover {
+            background-color: #B0B0B0;
         }
-        video::-moz-media-controls-pip-button {
-            display: none !important;
+        .vjs-selected {
+            background-color: #B0B0B0;
         }
-        video::media-controls-pip-button {
-            display: none !important;
+        .vjs-control-bar {
+            background-color: #484848 !important;
+            opacity: 0 !important;
+            border-bottom-left-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            transition: opacity 0.5s ease-in-out !important;
+            display: flex !important;
         }
-        /* Aggressive override for control bar gradient */
-        video::-webkit-media-controls-panel {
-            background: #000 !important;
-            background-image: none !important;
+        .vjs-control-bar.vjs-hidden {
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
-        video::-webkit-media-controls {
-            background: #000 !important;
-            background-image: none !important;
+        .vjs-control-bar.vjs-visible {
+            opacity: 0.8 !important;
+            pointer-events: auto !important;
+        }
+        @media (max-width: 768px) {
+            .vjs-control-bar {
+                height: 30px !important;
+                line-height: 30px !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="vjs-video-container">
+        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="metadata" playsinline poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"></video>
         <div class="language-dropdown">
-            <select onchange="changeLanguage(this.value)">
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="zh">Chinese</option>
-            </select>
-        </div>
-        <div class="video">
-            <video id="videoPlayer" src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
-                   poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
-                   preload="auto" playsinline webkit-playsinline disablepictureinpicture>
-            </video>
+            <button class="language-button">Language</button>
+            <ul id="languageMenu" class="language-menu"></ul>
         </div>
     </div>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        const video = document.getElementById('videoPlayer');
-        video.addEventListener('mouseover', () => {
-            video.setAttribute('controls', ''); // Enable native controls on hover
-            video.style.cursor = 'default'; // Reset cursor on hover
-        });
-        video.addEventListener('mouseout', () => {
-            video.removeAttribute('controls'); // Disable controls on mouseout
-            video.style.cursor = 'pointer'; // Restore pointer cursor
-        });
-        video.addEventListener('loadedmetadata', () => {
-            if (video.paused) {
-                video.style.cursor = 'pointer'; // Ensure clickable state
+        const player = videojs('videoPlayer', {
+            fluid: false,
+            width: 1920,
+            height: 1920,
+            controlBar: {
+                children: [
+                    'playToggle',
+                    'volumePanel',
+                    'currentTimeDisplay',
+                    'progressControl',
+                    'durationDisplay',
+                    'fullscreenToggle'
+                ]
             }
         });
-        if (video.disablePictureInPicture) {
-            video.disablePictureInPicture = true;
+
+        player.pipButton = undefined;
+        if (player.tech_) {
+            player.tech_.off('dblclick');
+            player.tech_.el_.disablePictureInPicture = true;
         }
-        function changeLanguage(lang) {
-            const sources = {
-                'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4',
-                'es': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_es_Atlas.mp4',
-                'zh': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_zh_Atlas.mp4'
-            };
-            const posters = {
-                'en': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg',
-                'es': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg',
-                'zh': 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg'
-            };
-            video.src = sources[lang];
-            video.poster = posters[lang];
-            video.load();
-            video.removeAttribute('controls'); // Ensure controls are off after language change
-            // Ensure poster persists until video is ready
-            video.addEventListener('canplay', () => {
-                video.style.background = 'transparent'; // Prevent black background
-            }, { once: true });
-            if (video.disablePictureInPicture) {
-                video.disablePictureInPicture = true;
+
+        function setupControlBarFadeOut() {
+            const controlBar = player.controlBar.el_;
+            let timeoutId = null;
+
+            function showControlBar() {
+                controlBar.classList.remove('vjs-hidden');
+                controlBar.classList.add('vjs-visible');
             }
+
+            function hideControlBar() {
+                controlBar.classList.remove('vjs-visible');
+                controlBar.classList.add('vjs-hidden');
+            }
+
+            function resetFadeTimeout() {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                showControlBar();
+                timeoutId = setTimeout(hideControlBar, 3000);
+            }
+
+            ['mousemove', 'mousedown', 'touchstart', 'touchmove', 'click', 'keydown'].forEach(event => {
+                player.el_.addEventListener(event, resetFadeTimeout);
+            });
+
+            player.on('pause', showControlBar);
+            player.on('play', resetFadeTimeout);
         }
+
+        player.ready(() => {
+            setupControlBarFadeOut();
+        });
+
+        let currentLang = 'en';
+        const languageButton = document.querySelector('.language-button');
+        const languageMenu = document.querySelector('#languageMenu');
+
+        languageButton.addEventListener('click', () => {
+            languageMenu.classList.toggle('visible');
+        });
+
+        function populateLanguageMenu(languages) {
+            languageMenu.innerHTML = '';
+            languages.forEach((lang, index) => {
+                const itemEl = document.createElement('li');
+                itemEl.className = 'language-item';
+                itemEl.innerHTML = lang.label;
+                if (lang.code === currentLang) {
+                    itemEl.classList.add('vjs-selected');
+                }
+                itemEl.addEventListener('click', () => {
+                    currentLang = lang.code;
+                    adjustPlaybackForLanguage(lang);
+                    languageMenu.classList.remove('visible');
+                    const items = languageMenu.querySelectorAll('.language-item');
+                    items.forEach(i => i.classList.remove('vjs-selected'));
+                    itemEl.classList.add('vjs-selected');
+                });
+                languageMenu.appendChild(itemEl);
+            });
+        }
+
+        function adjustPlaybackForLanguage(lang) {
+            player.src({
+                src: lang.video,
+                type: 'video/mp4'
+            });
+            player.poster(lang.poster || 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg');
+            player.currentTime(0);
+        }
+
+        // Mock API data (replace with actual fetch if needed)
+        const mockVideos = [{
+            languages: [
+                { code: 'en', label: 'English', video: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4', poster: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg' },
+                { code: 'es', label: 'Spanish', video: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_es_Atlas.mp4', poster: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg' },
+                { code: 'zh', label: 'Chinese', video: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_zh_Atlas.mp4', poster: 'https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg' }
+            ]
+        }];
+
+        // Simulate API fetch
+        console.log("Fetching API...");
+        setTimeout(() => {
+            console.log("API response:", mockVideos);
+            populateLanguageMenu(mockVideos[0].languages);
+            adjustPlaybackForLanguage(mockVideos[0].languages[0]);
+        }, 1000); // Simulate network delay
+
+        document.getElementById('videoPlayer').addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
-
