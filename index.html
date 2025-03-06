@@ -17,25 +17,33 @@
             min-height: 100vh;
             flex-direction: column;
         }
+        .language-dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+        }
+        select {
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background-color: #e0e0e0; /* Light gray background */
+            color: #fff; /* White text */
+            border: none; /* Remove stroke */
+            border-radius: 5px;
+            cursor: pointer;
+        }
         .video {
             text-align: center;
             max-width: 100%;
-            margin-bottom: 20px;
+            margin-top: 60px; /* Adjust to avoid overlap with dropdown */
         }
         video {
             max-width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .language-dropdown {
-            margin-bottom: 20px;
-        }
-        select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
+            box-shadow: none; /* Remove drop shadow */
+            overflow: hidden; /* Remove vertical scrollbar */
         }
     </style>
 </head>
