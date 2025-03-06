@@ -19,14 +19,14 @@
             flex-direction: column;
             overflow: hidden;
             height: 100vh;
-            background: transparent; /* Ensure no extra background */
+            background: transparent;
         }
         .language-dropdown {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px;
-            z-index: 10; /* Ensure dropdown stays above video */
+            z-index: 10;
         }
         select {
             padding: 10px 30px 10px 10px;
@@ -51,7 +51,7 @@
             margin-top: 60px;
             overflow: hidden;
             height: 80vh;
-            position: relative; /* Contain video background */
+            position: relative;
         }
         video {
             max-width: 100%;
@@ -59,24 +59,10 @@
             max-height: 100%;
             border-radius: 20px;
             box-shadow: none;
-            -webkit-appearance: none;
-            background: transparent; /* Remove any default video background */
+            background: transparent;
+            cursor: pointer; /* Ensure pointer cursor */
         }
-        video::-webkit-media-controls {
-            display: none;
-        }
-        video::-webkit-media-controls-start-playback-button {
-            display: block !important;
-        }
-        video:hover {
-            cursor: pointer;
-        }
-        video:hover::-webkit-media-controls {
-            display: block;
-        }
-        video::-webkit-media-controls-panel {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
-        }
+        /* Remove PiP icon */
         video::-webkit-media-controls-pip-button {
             display: none !important;
         }
@@ -106,16 +92,18 @@
     </div>
     <script>
         const video = document.getElementById('videoPlayer');
-        // Ensure controls toggle correctly in Chrome
+        // Toggle controls explicitly
         video.addEventListener('mouseover', () => {
-            video.setAttribute('controls', ''); // Enable controls on hover
+            video.setAttribute('controls', ''); // Enable native controls on hover
+            video.style.cursor = 'default'; // Reset cursor on hover
         });
         video.addEventListener('mouseout', () => {
             video.removeAttribute('controls'); // Disable controls on mouseout
+            video.style.cursor = 'pointer'; // Restore pointer cursor
         });
         video.addEventListener('loadedmetadata', () => {
             if (video.paused) {
-                video.style.cursor = 'pointer'; // Indicate clickable area
+                video.style.cursor = 'pointer'; // Ensure clickable state
             }
         });
         // Disable PiP via JavaScript
@@ -136,7 +124,7 @@
             video.src = sources[lang];
             video.poster = posters[lang];
             video.load();
-            video.removeAttribute('controls'); // Ensure controls are off after language change
+            video.removeAttribute('controls'); // Disable controls after language change
             if (video.disablePictureInPicture) {
                 video.disablePictureInPicture = true;
             }
