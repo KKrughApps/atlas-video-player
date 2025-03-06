@@ -5,22 +5,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        body { margin: 0; padding: 0; }
-        .video { text-align: center; margin: 0 auto; }
-        video { max-width: 100%; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .video {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        video {
+            max-width: 100%;
+            border-radius: 20px !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        video:hover {
+            transform: scale(1.02);
+        }
+        .wrapper {
+            padding: 20px;
+        }
+        .inner {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
-    <div id="container03" class="style2 container columns">
+    <div class="container">
         <div class="wrapper">
             <div class="inner">
-                <div>
-                    <div id="video03" class="video">
-                        <video src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
-                               poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
-                               preload="auto" playsinline webkit-playsinline controls>
-                        </video>
-                    </div>
+                <div class="video">
+                    <video src="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_Atlas.mp4"
+                           poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"
+                           preload="auto" playsinline webkit-playsinline controls>
+                    </video>
                 </div>
             </div>
         </div>
