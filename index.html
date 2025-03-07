@@ -27,8 +27,8 @@
             background-color: transparent;
             position: relative;
             outline: none !important;
-            border: 5px solid #F8F8F8; /* Increase border thickness to 5px */
-            overflow: hidden; /* Ensure poster is clipped */
+            border: 5px solid #F8F8F8;
+            overflow: hidden;
         }
         .vjs-video-container {
             position: relative;
@@ -38,10 +38,10 @@
             max-height: 100vh;
             margin: 0 auto;
             aspect-ratio: 1 / 1;
-            overflow: hidden; /* Clip poster to match rounded corners */
+            overflow: hidden;
         }
         video.vjs-tech {
-            border-radius: 20px; /* Explicitly apply to video element */
+            border-radius: 20px;
         }
         .language-dropdown {
             position: absolute;
@@ -57,7 +57,7 @@
             cursor: pointer;
             font-size: 16px;
             font-family: Arial, sans-serif;
-            border-radius: 5px;
+            border-radius: 20px; /* Match player's corner radius */
         }
         .language-button:hover {
             background-color: #B0B0B0;
@@ -69,7 +69,7 @@
             right: 0;
             background-color: #D3D3D3;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px; /* Match player's corner radius */
             z-index: 1000;
             list-style: none;
             margin: 0;
@@ -85,12 +85,12 @@
             font-family: Arial, sans-serif;
         }
         .language-item:first-child {
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
+            border-top-left-radius: 20px; /* Match player's corner radius */
+            border-top-right-radius: 20px;
         }
         .language-item:last-child {
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 20px; /* Match player's corner radius */
+            border-bottom-right-radius: 20px;
         }
         .language-item:hover {
             background-color: #B0B0B0;
@@ -115,6 +115,14 @@
         .vjs-control-bar.vjs-visible {
             opacity: 0.8 !important;
             pointer-events: auto !important;
+        }
+        .vjs-big-play-button {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        .vjs-big-play-button:focus {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent !important;
         }
         @media (max-width: 768px) {
             .vjs-control-bar {
