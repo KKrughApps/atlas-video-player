@@ -27,7 +27,8 @@
             background-color: transparent;
             position: relative;
             outline: none !important;
-            border: 3px solid #F8F8F8; /* Retain light gray border */
+            border: 5px solid #F8F8F8; /* Increase border thickness to 5px */
+            overflow: hidden; /* Ensure poster is clipped */
         }
         .vjs-video-container {
             position: relative;
@@ -37,7 +38,10 @@
             max-height: 100vh;
             margin: 0 auto;
             aspect-ratio: 1 / 1;
-            overflow: hidden;
+            overflow: hidden; /* Clip poster to match rounded corners */
+        }
+        video.vjs-tech {
+            border-radius: 20px; /* Explicitly apply to video element */
         }
         .language-dropdown {
             position: absolute;
