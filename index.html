@@ -10,7 +10,7 @@
             margin: 0;
             overflow: hidden;
         }
-        .video-js {
+        .video-wrapper {
             width: 1920px;
             height: 1920px;
             max-width: 100%;
@@ -19,17 +19,22 @@
             padding-bottom: 70px;
             aspect-ratio: 1 / 1;
             border-radius: 20px;
+            overflow: hidden; /* Clip the shadow to match corners */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Apply shadow to wrapper */
+        }
+        .video-js {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
             background-color: transparent;
             position: relative;
             outline: none !important;
-            overflow: hidden;
-            border: 3px solid #F8F8F8; /* Retain light gray border */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Add sharp drop shadow */
+            border: 3px solid #F8F8F8; /* Retain light gray border on video-js */
         }
         .vjs-video-container {
             position: relative;
-            width: 1920px;
-            height: 1920px;
+            width: 100%;
+            height: 100%;
             max-width: 100%;
             max-height: 100vh;
             margin: 0 auto;
@@ -118,11 +123,13 @@
     </style>
 </head>
 <body>
-    <div class="vjs-video-container">
-        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="metadata" playsinline poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"></video>
-        <div class="language-dropdown">
-            <button class="language-button">Language</button>
-            <ul id="languageMenu" class="language-menu"></ul>
+    <div class="video-wrapper">
+        <div class="vjs-video-container">
+            <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="metadata" playsinline poster="https://pub-9726e4b116304d1eb11edae75464f166.r2.dev/patient_education_1_en_thumbnail_Atlas.jpg"></video>
+            <div class="language-dropdown">
+                <button class="language-button">Language</button>
+                <ul id="languageMenu" class="language-menu"></ul>
+            </div>
         </div>
     </div>
 
